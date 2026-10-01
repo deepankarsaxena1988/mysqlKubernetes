@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ecom-product-mysql-image
+
+spec:
+  selector:
+    matchLabels:
+      app: ecom-product-mysql-image
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: ecom-product-mysql-image
+    spec:
+      containers:
+        - name: ecom-product-mysql-image
+          image: ecom-product-mysql-image
+          ports:
+            - containerPort: 3310
+      imagePullSecrets:
+        - name: regcred1

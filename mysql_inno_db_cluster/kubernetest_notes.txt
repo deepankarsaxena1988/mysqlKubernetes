@@ -1,0 +1,25 @@
+kubectl describe pod <pod-name>
+
+kubectl delete pod ecom-app-deployment-594dd69d45-p5866
+kubectl delete pod ecom-app-deployment-594dd69d45-cdps6
+
+
+
+kubectl apply -f ecomKubernetesCluster-deployment.yamlkubectl delete pod ecom-app-deployment-5d6cbdf4c9-77jp6
+
+
+kubectl delete pods --all -n <namespace-name>
+
+# Source - https://stackoverflow.com/a/61058817
+# Posted by Arghya Sadhu
+# Retrieved 2026-02-09, License - CC BY-SA 4.0
+
+kubectl delete deploy ecom-app-deployment -n namespacename
+
+
+kubectl create secret generic regcred --from-file=C:/Users/Deepankar/.docker/config.json> --type=kubernetes.io/dockerconfigjson
+
+kubectl create secret generic regcred --from-file=C:/Users/Deepankar/.docker/config.json --type=./dockerconfigsecret
+
+kubectl create secret docker-registry regcred --docker-server=docker.io --docker-username=deepankarsaxena --docker-password=<p> --docker-email=deepankar.saxena1988@gmail.com
+

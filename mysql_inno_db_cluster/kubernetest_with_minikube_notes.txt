@@ -1,0 +1,88 @@
+Kubernetes with minikube:-
+
+********************* to start minikube cluster with more than one node *******************************
+
+minikube start --nodes 3 -p ecom-multi-node-cluster
+
+--to start minikube with one node cluster (default)
+minikube start 
+
+-- command to see details of a node
+ kubectl describe node <node_name>
+ 
+-- kubernetes cluster status  
+ minikube status -p ecom-multi-node-cluster
+ 
+-- to run kyebernetes yml file
+kubectl apply -f your-file-name.yaml
+
+kubectl apply -f mysql_kubernetes.yml
+kubectl apply -f mysql_kubernetes.yml
+
+-- to run kuberenetes dashboard 
+
+minikube dashboard -p ecom-multi-node-cluster --url 
+
+
+
+
+kubectl exec -it <your-pod-name> -- bin/bash
+
+kubectl exec -it mysql-0 -- bin/bash
+kubectl exec -it mysql-1 -- bin/bash
+
+
+-- delete kubernetes cluster by the name ecom-multi-node-cluster
+minikube delete -p ecom-multi-node-cluster
+
+
+kubectl drain --force ecom-multi-node-cluster --ignore-daemonsets --delete-emptydir-data
+kubectl drain --force ecom-multi-node-cluster-m02 --ignore-daemonsets --delete-emptydir-data
+kubectl drain --force ecom-multi-node-cluster-m03 --ignore-daemonsets --delete-emptydir-data
+
+
+kubectl delete node ecom-multi-node-cluster
+kubectl delete node ecom-multi-node-cluster-m02
+kubectl delete node ecom-multi-node-cluster-m03
+
+kubectl scale statefulset mysql --replicas=0
+
+
+kubectl describe pvc mysql-data-mysql-0
+
+
+
+kubectl create secret generic mypwds --from-literal=rootUser=root --from-literal=rootHost=% --from-literal=rootPassword="sakila"
+
+kubectl apply -f mysql_innodb_cluster.yaml
+
+kubectl describe service mycluster 
+
+-- to connect to mysql db running on a pod on kubernetes cluster node
+kubectl exec -it mycluster-0 -- bin/bash
+mysqlsh root@localhost:3306
+
+SELECT MEMBER_HOST, MEMBER_ROLE FROM performance_schema.replication_group_members;
+
+
+
+
+SHOW GLOBAL VARIABLES LIKE '%read_only%'; 
+
+*****************************************************************
+
+CHANGE MASTER TO   MASTER_HOST='mysql-0.mysql',   MASTER_USER='repl',   MASTER_PASSWORD='password',   MASTER_LOG_FILE='mysql-bin.000001', MASTER_LOG_POS=157;
+
+CHANGE REPLICATION SOURCE TO   SOURCE_HOST='mysql-0.mysql',  SOURCE_USER='repl',  SOURCE_PASSWORD='password',  SOURCE_LOG_FILE='mysql-bin.000001',  SOURCE_LOG_POS=157;
+
+START SLAVE;
+
+
+STOP REPLICA;
+
+CHANGE REPLICATION SOURCE TO   SOURCE_HOST='mysql-0.mysql',  SOURCE_USER='repl',  SOURCE_PASSWORD='password',  SOURCE_LOG_FILE='binlog.000002',  SOURCE_LOG_POS=898;
+
+START REPLICA;
+
+
+******************************************************************************************
